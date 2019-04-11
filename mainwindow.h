@@ -5,6 +5,8 @@
 #include <QSqlDatabase>
 #include <QSqlQueryModel>
 
+#include "patientform.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -18,10 +20,10 @@ public:
     ~MainWindow();
 
 private:
-
     Ui::MainWindow *ui;
     QSqlDatabase db;
     QSqlQueryModel *modelPatients;
+    PatientForm *patientForm;
 
     const int PATIENT_ID_INDEX = 0;
     const int FIRST_NAME_INDEX = 1;

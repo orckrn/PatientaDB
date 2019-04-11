@@ -78,6 +78,8 @@ MainWindow::MainWindow(QWidget *parent) :
                 this,
                 SLOT(onTableDoubleClicked(const QModelIndex &))
                 );
+
+    patientForm = new PatientForm;
 }
 
 void MainWindow::onTableClicked(const QModelIndex &index)
@@ -154,15 +156,15 @@ void MainWindow::onTableClicked(const QModelIndex &index)
                         )
                     ).toString();
         ui->labelPhoneNumber->setText (phoneNumberText);
-        return;
     }
 }
 
 void MainWindow::onTableDoubleClicked(const QModelIndex &index) {
 
-    PatientForm* form = new PatientForm;
-    form->show();
-    return;
+    //  TBD
+    patientForm->show();
+    patientForm->activateWindow();
+    patientForm->raise();
 }
 
 MainWindow::~MainWindow()
