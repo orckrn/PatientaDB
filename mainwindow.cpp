@@ -4,6 +4,7 @@
 #include <QMessageBox>
 
 #include "mainwindow.h"
+#include "patientform.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -61,6 +62,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->patientsList->setColumnHidden(PHONE_NUMBER_INDEX, true);
     ui->patientsList->setColumnHidden(ANAMNESIS_INDEX, true);
 
+    ui->patientsList->setFocusPolicy(Qt::NoFocus);
+    ui->patientsList->show();
+
     connect(
                 ui->patientsList,
                 SIGNAL(clicked(const QModelIndex &)),
@@ -68,7 +72,12 @@ MainWindow::MainWindow(QWidget *parent) :
                 SLOT(onTableClicked(const QModelIndex &))
                 );
 
-    ui->patientsList->show();
+    connect (
+                ui->patientsList,
+                SIGNAL(doubleClicked(const QModelIndex &)),
+                this,
+                SLOT(onTableDoubleClicked(const QModelIndex &))
+                );
 }
 
 void MainWindow::onTableClicked(const QModelIndex &index)
@@ -147,6 +156,13 @@ void MainWindow::onTableClicked(const QModelIndex &index)
         ui->labelPhoneNumber->setText (phoneNumberText);
         return;
     }
+}
+
+void MainWindow::onTableDoubleClicked(const QModelIndex &index) {
+
+    PatientForm* form = new PatientForm;
+    form->show();
+    return;
 }
 
 MainWindow::~MainWindow()
