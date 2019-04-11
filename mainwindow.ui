@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>598</width>
-    <height>736</height>
+    <height>643</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,6 +42,18 @@
      <property name="bottomMargin">
       <number>9</number>
      </property>
+     <item>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="title">
+        <string>Поиск</string>
+       </property>
+       <layout class="QFormLayout" name="_3">
+        <item row="0" column="0" colspan="2">
+         <widget class="QLineEdit" name="lineEdit"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
      <item>
       <widget class="QTableView" name="patientsList">
        <property name="selectionBehavior">
