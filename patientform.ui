@@ -19,7 +19,7 @@
      <x>20</x>
      <y>10</y>
      <width>531</width>
-     <height>171</height>
+     <height>341</height>
     </rect>
    </property>
    <property name="title">
@@ -222,7 +222,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Телефон:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_5">
+   <widget class="QLineEdit" name="phoneEdit">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -232,14 +232,24 @@
      </rect>
     </property>
    </widget>
+   <widget class="QTextEdit" name="anamnesisEdit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>170</y>
+      <width>491</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QTableView" name="tableView">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>190</y>
+     <y>360</y>
      <width>531</width>
-     <height>341</height>
+     <height>171</height>
     </rect>
    </property>
   </widget>

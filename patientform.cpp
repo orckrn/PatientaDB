@@ -23,6 +23,24 @@ void PatientForm::setData(QSqlRecord patientRecord) {
     ui->secondNameEdit->setText(
                 patientRecord.value(Ui::SECOND_NAME_INDEX).toString()
                 );
+
+    //  birth date
+
+    ui->streetEdit->setText(
+                patientRecord.value(Ui::STREET_INDEX).toString()
+                );
+
+    //  building, block, apartments
+
+    ui->phoneEdit->setText(
+                patientRecord.value(Ui::PHONE_NUMBER_INDEX).toString()
+                );
+
+    ui->anamnesisEdit->setText(
+                patientRecord.value(Ui::ANAMNESIS_INDEX).toString()
+                );
+
+    //  getting checks from TCheck table
 }
 
 PatientForm::~PatientForm()
