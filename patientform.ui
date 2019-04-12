@@ -129,7 +129,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Кв.:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="lastNameEdit">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -139,7 +139,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="firstNameEdit">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -149,7 +149,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
+   <widget class="QLineEdit" name="secondNameEdit">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -159,7 +159,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QDateEdit" name="dateEdit">
+   <widget class="QDateEdit" name="birthDateEdit">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -169,7 +169,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_4">
+   <widget class="QLineEdit" name="streetEdit">
     <property name="geometry">
      <rect>
       <x>120</x>
