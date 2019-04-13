@@ -179,7 +179,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox">
+   <widget class="QSpinBox" name="buildingEdit">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -189,7 +189,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_2">
+   <widget class="QSpinBox" name="blockEdit">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -199,7 +199,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_3">
+   <widget class="QSpinBox" name="apartmentsEdit">
     <property name="geometry">
      <rect>
       <x>310</x>

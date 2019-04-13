@@ -37,31 +37,35 @@ MainWindow::MainWindow(QWidget *parent) :
     modelPatients->setQuery("select * from TPatient");
 
     modelPatients->setHeaderData(
-                Ui::FIRST_NAME_INDEX,
+                Ui::TPatient::FIRST_NAME_INDEX,
                 Qt::Horizontal,
                 QObject::tr("Имя")
                 );
     modelPatients->setHeaderData(
-                Ui::SECOND_NAME_INDEX,
+                Ui::TPatient::SECOND_NAME_INDEX,
                 Qt::Horizontal,
                 QObject::tr("Отчество")
                 );
     modelPatients->setHeaderData(
-                Ui::LAST_NAME_INDEX,
+                Ui::TPatient::LAST_NAME_INDEX,
                 Qt::Horizontal,
                 QObject::tr("Фамилия")
                 );
-    modelPatients->setHeaderData(Ui::BIRTH_DATE_INDEX, Qt::Horizontal, QObject::tr("Дата Рождения"));
+    modelPatients->setHeaderData(
+                Ui::TPatient::BIRTH_DATE_INDEX,
+                Qt::Horizontal,
+                QObject::tr("Дата Рождения")
+                );
 
     ui->patientsList->setModel(modelPatients);
 
-    ui->patientsList->setColumnHidden(Ui::PATIENT_ID_INDEX, true);
-    ui->patientsList->setColumnHidden(Ui::STREET_INDEX, true);
-    ui->patientsList->setColumnHidden(Ui::BUILDING_INDEX, true);
-    ui->patientsList->setColumnHidden(Ui::BLOCK_INDEX, true);
-    ui->patientsList->setColumnHidden(Ui::APARTMENTS_INDEX, true);
-    ui->patientsList->setColumnHidden(Ui::PHONE_NUMBER_INDEX, true);
-    ui->patientsList->setColumnHidden(Ui::ANAMNESIS_INDEX, true);
+    ui->patientsList->setColumnHidden(Ui::TPatient::PATIENT_ID_INDEX, true);
+    ui->patientsList->setColumnHidden(Ui::TPatient::STREET_INDEX, true);
+    ui->patientsList->setColumnHidden(Ui::TPatient::BUILDING_INDEX, true);
+    ui->patientsList->setColumnHidden(Ui::TPatient::BLOCK_INDEX, true);
+    ui->patientsList->setColumnHidden(Ui::TPatient::APARTMENTS_INDEX, true);
+    ui->patientsList->setColumnHidden(Ui::TPatient::PHONE_NUMBER_INDEX, true);
+    ui->patientsList->setColumnHidden(Ui::TPatient::ANAMNESIS_INDEX, true);
 
     ui->patientsList->setFocusPolicy(Qt::NoFocus);
     ui->patientsList->show();
@@ -80,6 +84,13 @@ MainWindow::MainWindow(QWidget *parent) :
                 SLOT(onTableDoubleClicked(const QModelIndex &))
                 );
 
+    connect(
+                ui->createButton,
+                SIGNAL (clicked()),
+                this,
+                SLOT (onCreateRecordButtonClicked())
+                );
+
     patientForm = new PatientForm;
 }
 
@@ -90,7 +101,7 @@ void MainWindow::onTableClicked(const QModelIndex &index)
         QString lastNameText = modelPatients->data(
                     modelPatients->index(
                         index.row(),
-                        Ui::LAST_NAME_INDEX
+                        Ui::TPatient::LAST_NAME_INDEX
                         )
                     ).toString();
         ui->labelLastName->setText(lastNameText);
@@ -98,7 +109,7 @@ void MainWindow::onTableClicked(const QModelIndex &index)
         QString firstNameText = modelPatients->data(
                     modelPatients->index(
                         index.row(),
-                        Ui::FIRST_NAME_INDEX
+                        Ui::TPatient::FIRST_NAME_INDEX
                         )
                     ).toString();
         ui->labelFirstName->setText(firstNameText);
@@ -106,7 +117,7 @@ void MainWindow::onTableClicked(const QModelIndex &index)
         QString secondNameText = modelPatients->data(
                     modelPatients->index(
                         index.row(),
-                        Ui::SECOND_NAME_INDEX
+                        Ui::TPatient::SECOND_NAME_INDEX
                         )
                     ).toString();
         ui->labelSecondName->setText(secondNameText);
@@ -114,7 +125,7 @@ void MainWindow::onTableClicked(const QModelIndex &index)
         QString birthDateString = modelPatients->data(
                     modelPatients->index(
                         index.row(),
-                        Ui::BIRTH_DATE_INDEX
+                        Ui::TPatient::BIRTH_DATE_INDEX
                         )
                     ).toString();
         ui->labelBirthDate->setText(birthDateString);
@@ -122,25 +133,25 @@ void MainWindow::onTableClicked(const QModelIndex &index)
         QString streetText = modelPatients->data(
                     modelPatients->index(
                         index.row(),
-                        Ui::STREET_INDEX
+                        Ui::TPatient::STREET_INDEX
                         )
                     ).toString();
         QString buildingText = modelPatients->data(
                     modelPatients->index(
                         index.row(),
-                        Ui::BUILDING_INDEX
+                        Ui::TPatient::BUILDING_INDEX
                         )
                     ).toString();
         QString blockText = modelPatients->data(
                     modelPatients->index(
                         index.row(),
-                        Ui::BLOCK_INDEX
+                        Ui::TPatient::BLOCK_INDEX
                         )
                     ).toString();
         QString appartmentsText = modelPatients->data(
                     modelPatients->index(
                         index.row(),
-                        Ui::APARTMENTS_INDEX
+                        Ui::TPatient::APARTMENTS_INDEX
                         )
                     ).toString();
         ui->labelAddress->setText(
@@ -153,7 +164,7 @@ void MainWindow::onTableClicked(const QModelIndex &index)
         QString phoneNumberText = modelPatients->data(
                     modelPatients->index(
                         index.row(),
-                        Ui::PHONE_NUMBER_INDEX
+                        Ui::TPatient::PHONE_NUMBER_INDEX
                         )
                     ).toString();
         ui->labelPhoneNumber->setText (phoneNumberText);
@@ -167,6 +178,14 @@ void MainWindow::onTableDoubleClicked(const QModelIndex &index) {
         patientForm->setData(patientRecord);
     }
 
+    patientForm->show();
+    patientForm->activateWindow();
+    patientForm->raise();
+}
+
+void MainWindow::onCreateRecordButtonClicked() {
+
+    patientForm->resetData();
     patientForm->show();
     patientForm->activateWindow();
     patientForm->raise();
