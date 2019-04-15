@@ -24,6 +24,8 @@ public:
 private:
     Ui::PatientForm *ui;
     Ui::Form_Mode mode;
+    QSqlQueryModel *modelChecks;
+    int patientId;
 };
 
 #endif // PATIENTFORM_H

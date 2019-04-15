@@ -8,9 +8,17 @@ PatientForm::PatientForm(QWidget *parent) :
     ui(new Ui::PatientForm)
 {
     ui->setupUi(this);
+
+    modelChecks = new QSqlQueryModel();
 }
 
 void PatientForm::setData(QSqlRecord patientRecord) {
+
+    modelChecks->setQuery(
+                "select * from TCheck where Patient_Id = " +
+                patientRecord.value(Ui::TPatient::PATIENT_ID_INDEX).toString()
+                );
+    ui->patientChecks->setModel(modelChecks);
 
     ui->lastNameEdit->setText(
                 patientRecord.value(Ui::TPatient::LAST_NAME_INDEX).toString()
@@ -57,6 +65,9 @@ void PatientForm::setData(QSqlRecord patientRecord) {
 
 void PatientForm::resetData() {
 
+    modelChecks->setQuery("");
+    ui->patientChecks->setModel(modelChecks);
+
     ui->lastNameEdit->setText("");
 
     ui->firstNameEdit->setText("");
@@ -64,7 +75,7 @@ void PatientForm::resetData() {
     ui->secondNameEdit->setText("");
 
     ui->birthDateEdit->setDate(
-                QDate::fromString("0000-01-01",Qt::ISODate)
+                QDate::fromString("2000-01-01", Qt::ISODate)
                 );
 
     ui->streetEdit->setText("");

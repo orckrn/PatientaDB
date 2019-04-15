@@ -4,5 +4,6 @@
         <file>img/delete_user_1.png</file>
         <file>img/delete_user_2.png</file>
         <file>img/edit_user.png</file>
+        <file>img/save.png</file>
     </qresource>
 </RCC>
