@@ -252,6 +252,12 @@
      <height>171</height>
     </rect>
    </property>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::ExtendedSelection</enum>
+   </property>
+   <property name="selectionBehavior">
+    <enum>QAbstractItemView::SelectRows</enum>
+   </property>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
@@ -281,22 +287,6 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="deleteButton_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>290</y>
-      <width>101</width>
-      <height>101</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-image: url(:/img/edit_user.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QPushButton" name="deleteButton_3">
     <property name="geometry">
      <rect>
@@ -308,6 +298,22 @@
     </property>
     <property name="styleSheet">
      <string notr="true">background-image: url(:/img/delete_user_2.png);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="createButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>290</y>
+      <width>101</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url(:/img/add_comment.png);</string>
     </property>
     <property name="text">
      <string/>

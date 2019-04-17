@@ -18,6 +18,15 @@ namespace Ui {
         const int ANAMNESIS_INDEX = 10;
     }
 
+    namespace TCheck {
+
+        const int CHECK_ID_INDEX = 0;
+        const int TAG_INDEX = 1;
+        const int DATE_INDEX = 2;
+        const int PATIENT_ID_INDEX = 3;
+        const int RESOLUTION_INDEX = 4;
+    }
+
     enum class Form_Mode {CREATE_RECORD_MODE, EDIT_RECORD_MODE};
 }
 

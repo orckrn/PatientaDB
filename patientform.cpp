@@ -10,6 +10,7 @@ PatientForm::PatientForm(QWidget *parent) :
     ui->setupUi(this);
 
     modelChecks = new QSqlQueryModel();
+
 }
 
 void PatientForm::setData(QSqlRecord patientRecord) {
@@ -18,7 +19,29 @@ void PatientForm::setData(QSqlRecord patientRecord) {
                 "select * from TCheck where Patient_Id = " +
                 patientRecord.value(Ui::TPatient::PATIENT_ID_INDEX).toString()
                 );
+
+    modelChecks->setHeaderData(
+                Ui::TCheck::TAG_INDEX,
+                Qt::Horizontal,
+                QObject::tr("Метка")
+                );
+    modelChecks->setHeaderData(
+                Ui::TCheck::DATE_INDEX,
+                Qt::Horizontal,
+                QObject::tr("Дата")
+                );
+    modelChecks->setHeaderData(
+                Ui::TCheck::RESOLUTION_INDEX,
+                Qt::Horizontal,
+                QObject::tr("Резолюция")
+                );
+
     ui->patientChecks->setModel(modelChecks);
+    ui->patientChecks->setColumnHidden(Ui::TCheck::CHECK_ID_INDEX, true);
+    ui->patientChecks->setColumnHidden(Ui::TCheck::PATIENT_ID_INDEX, true);
+
+    ui->patientChecks->setFocusPolicy(Qt::NoFocus);
+    ui->patientChecks->show();
 
     ui->lastNameEdit->setText(
                 patientRecord.value(Ui::TPatient::LAST_NAME_INDEX).toString()
