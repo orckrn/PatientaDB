@@ -177,13 +177,30 @@ void PatientForm::onSaveRecordButtonClicked()
                 queryString += "'" + ui->phoneEdit->text() + "', ";
                 queryString += "'" + ui->anamnesisEdit->toPlainText() + "')";
 
-                QSqlQuery createPatientQuery;
-                createPatientQuery.exec(queryString);
+                QSqlQuery patientQuery;
+                patientQuery.exec(queryString);
 
                 ui->addResolutionButton->show();
                 ui->deleteResolutionButton->show();
 
                 emit updatePatientTable();
+
+                queryString = "select * from TPatient where ";
+                queryString += "First_Name='" + ui->firstNameEdit->text() + "' and ";
+                queryString += "Second_Name='" + ui->secondNameEdit->text() + "' and ";
+                queryString += "Last_Name='" + ui->lastNameEdit->text() + "' and ";
+                queryString += "Birth_Date='" + ui->birthDateEdit->date().toString(Qt::ISODate) + "' and ";
+                queryString += "Street='" + ui->streetEdit->text() + "' and ";
+                queryString += "Building='" + ui->buildingEdit->text() + "' and ";
+                queryString += "Block='" + ui->blockEdit->text() + "' and ";
+                queryString += "Apartments='" + ui->apartmentsEdit->text() + "' and ";
+                queryString += "Phone_Number='" + ui->phoneEdit->text() + "' and ";
+                queryString += "Anamnesis='" + ui->anamnesisEdit->toPlainText() + "'";
+                patientQuery.exec(queryString);
+                patientQuery.next();
+                patientId = patientQuery.value(Ui::TPatient::PATIENT_ID_INDEX).toInt();
+
+                mode = Ui::Form_Mode::EDIT_RECORD_MODE;
             }
 
         } break;
