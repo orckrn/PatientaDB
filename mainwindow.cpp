@@ -92,6 +92,13 @@ MainWindow::MainWindow(QWidget *parent) :
                 );
 
     patientForm = new PatientForm;
+
+    connect(
+                patientForm,
+                SIGNAL (updatePatientTable()),
+                this,
+                SLOT (onUpdatePatientTable())
+                );
 }
 
 void MainWindow::onTableClicked(const QModelIndex &index)
@@ -189,6 +196,12 @@ void MainWindow::onCreateRecordButtonClicked() {
     patientForm->show();
     patientForm->activateWindow();
     patientForm->raise();
+}
+
+void MainWindow::onUpdatePatientTable() {
+
+    //  TBD
+    return;
 }
 
 MainWindow::~MainWindow()

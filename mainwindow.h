@@ -30,6 +30,7 @@ private slots:
     void onTableClicked(const QModelIndex &index);
     void onTableDoubleClicked(const QModelIndex &index);
     void onCreateRecordButtonClicked();
+    void onUpdatePatientTable();
 };
 
 #endif // MAINWINDOW_H

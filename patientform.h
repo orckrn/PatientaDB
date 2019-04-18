@@ -27,6 +27,9 @@ private:
     QSqlQueryModel *modelChecks;
     int patientId;
 
+signals:
+    void updatePatientTable();
+
 private slots:
     void onSaveRecordButtonClicked();
 };

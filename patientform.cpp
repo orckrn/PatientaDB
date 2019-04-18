@@ -92,7 +92,7 @@ void PatientForm::setData(QSqlRecord patientRecord) {
                 );
 
     ui->addResolutionButton->show();
-    ui->deleteButton->show();
+    ui->deleteResolutionButton->show();
 
     mode = Ui::Form_Mode::EDIT_RECORD_MODE;
 }
@@ -125,7 +125,7 @@ void PatientForm::resetData() {
     ui->anamnesisEdit->setText("");
 
     ui->addResolutionButton->hide();
-    ui->deleteButton->hide();
+    ui->deleteResolutionButton->hide();
 
     mode = Ui::Form_Mode::CREATE_RECORD_MODE;
 }
@@ -179,6 +179,11 @@ void PatientForm::onSaveRecordButtonClicked()
 
                 QSqlQuery createPatientQuery;
                 createPatientQuery.exec(queryString);
+
+                ui->addResolutionButton->show();
+                ui->deleteResolutionButton->show();
+
+                emit updatePatientTable();
             }
 
         } break;
