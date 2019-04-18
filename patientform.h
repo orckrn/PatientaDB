@@ -26,6 +26,9 @@ private:
     Ui::Form_Mode mode;
     QSqlQueryModel *modelChecks;
     int patientId;
+
+private slots:
+    void onSaveRecordButtonClicked();
 };
 
 #endif // PATIENTFORM_H

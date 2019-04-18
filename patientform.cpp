@@ -1,4 +1,6 @@
 
+#include <QMessageBox>
+
 #include "main.h"
 #include "patientform.h"
 #include "ui_patientform.h"
@@ -11,6 +13,12 @@ PatientForm::PatientForm(QWidget *parent) :
 
     modelChecks = new QSqlQueryModel();
 
+    connect (
+                ui->saveButton,
+                SIGNAL (clicked()),
+                this,
+                SLOT (onSaveRecordButtonClicked())
+                );
 }
 
 void PatientForm::setData(QSqlRecord patientRecord) {
@@ -83,6 +91,9 @@ void PatientForm::setData(QSqlRecord patientRecord) {
                 patientRecord.value(Ui::TPatient::ANAMNESIS_INDEX).toString()
                 );
 
+    ui->addResolutionButton->show();
+    ui->deleteButton->show();
+
     mode = Ui::Form_Mode::EDIT_RECORD_MODE;
 }
 
@@ -113,7 +124,69 @@ void PatientForm::resetData() {
 
     ui->anamnesisEdit->setText("");
 
+    ui->addResolutionButton->hide();
+    ui->deleteButton->hide();
+
     mode = Ui::Form_Mode::CREATE_RECORD_MODE;
+}
+
+void PatientForm::onSaveRecordButtonClicked()
+{
+    QString errorMessage;
+
+    switch (mode) {
+
+        case Ui::Form_Mode::CREATE_RECORD_MODE: {
+
+            if (ui->lastNameEdit->text().isEmpty()) {
+                errorMessage += "Фамилия\n";
+            }
+
+            if (ui->firstNameEdit->text().isEmpty()) {
+                errorMessage += "Имя\n";
+            }
+
+            if (ui->secondNameEdit->text().isEmpty()) {
+                errorMessage += "Отчество\n";
+            }
+
+            if (!errorMessage.isEmpty()) {
+
+                QMessageBox::critical(
+                        this,
+                        "Form fields must be defined",
+                        errorMessage + "должн(ы) быть определен(ы)"
+                        );
+
+            } else {
+
+                QString queryString;
+                queryString += "insert into TPatient (";
+                queryString += "First_Name, Second_Name, Last_Name, ";
+                queryString += "Birth_Date, Street, Building, Block, ";
+                queryString += "Apartments, Phone_Number, Anamnesis) ";
+                queryString += "values (";
+                queryString += "'" + ui->firstNameEdit->text() + "', ";
+                queryString += "'" + ui->secondNameEdit->text() + "', ";
+                queryString += "'" + ui->lastNameEdit->text() + "', ";
+                queryString += "'" + ui->birthDateEdit->date().toString(Qt::ISODate) + "', ";
+                queryString += "'" + ui->streetEdit->text() + "', ";
+                queryString += "'" + ui->buildingEdit->text() + "', ";
+                queryString += "'" + ui->blockEdit->text() + "', ";
+                queryString += "'" + ui->apartmentsEdit->text() + "', ";
+                queryString += "'" + ui->phoneEdit->text() + "', ";
+                queryString += "'" + ui->anamnesisEdit->toPlainText() + "')";
+
+                QSqlQuery createPatientQuery;
+                createPatientQuery.exec(queryString);
+            }
+
+        } break;
+
+        case Ui::Form_Mode::EDIT_RECORD_MODE: {
+
+        } break;
+    }
 }
 
 PatientForm::~PatientForm()
