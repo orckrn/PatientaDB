@@ -200,8 +200,7 @@ void MainWindow::onCreateRecordButtonClicked() {
 
 void MainWindow::onUpdatePatientTable() {
 
-    //  TBD
-    return;
+    modelPatients->setQuery("select * from TPatient");
 }
 
 MainWindow::~MainWindow()
