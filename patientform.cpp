@@ -48,7 +48,6 @@ void PatientForm::setData(QSqlRecord patientRecord) {
     ui->patientChecks->setColumnHidden(Ui::TCheck::CHECK_ID_INDEX, true);
     ui->patientChecks->setColumnHidden(Ui::TCheck::PATIENT_ID_INDEX, true);
 
-    ui->patientChecks->setFocusPolicy(Qt::NoFocus);
     ui->patientChecks->show();
 
     ui->lastNameEdit->setText(
@@ -246,10 +245,10 @@ void PatientForm::onSaveRecordButtonClicked()
                 reply = QMessageBox::question(
                             this,
                             "Question",
-                            "Вы действительно хотите добавить " +
+                            "Вы действительно хотите обновить " +
                                 ui->firstNameEdit->text() + " " +
                                 ui->secondNameEdit->text() + " " +
-                                ui->lastNameEdit->text() + " в базу?",
+                                ui->lastNameEdit->text() + " в базе?",
                             QMessageBox::Yes|QMessageBox::No
                             );
                 if (reply == QMessageBox::No)

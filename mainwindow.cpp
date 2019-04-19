@@ -67,7 +67,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->patientsList->setColumnHidden(Ui::TPatient::PHONE_NUMBER_INDEX, true);
     ui->patientsList->setColumnHidden(Ui::TPatient::ANAMNESIS_INDEX, true);
 
-    ui->patientsList->setFocusPolicy(Qt::NoFocus);
     ui->patientsList->show();
 
     connect(
@@ -89,6 +88,13 @@ MainWindow::MainWindow(QWidget *parent) :
                 SIGNAL (clicked()),
                 this,
                 SLOT (onCreateRecordButtonClicked())
+                );
+
+    connect(
+                ui->deleteButton,
+                SIGNAL (clicked()),
+                this,
+                SLOT (onDeleteRecordButtonClicked())
                 );
 
     patientForm = new PatientForm;
@@ -196,6 +202,57 @@ void MainWindow::onCreateRecordButtonClicked() {
     patientForm->show();
     patientForm->activateWindow();
     patientForm->raise();
+}
+
+void MainWindow::onDeleteRecordButtonClicked() {
+
+    QMessageBox::StandardButton reply;
+
+    QModelIndexList selection = ui->patientsList->selectionModel()->selectedRows();
+
+    if (selection.size()) {
+
+        QModelIndex index = selection.at (0);
+        QSqlRecord record = modelPatients->record(index.row());
+
+        reply = QMessageBox::question(
+                    this,
+                    "Question",
+                    "Вы действительно хотите удалить " +
+                        record.value(Ui::TPatient::FIRST_NAME_INDEX).toString() + " " +
+                        record.value(Ui::TPatient::SECOND_NAME_INDEX).toString() + " " +
+                        record.value(Ui::TPatient::LAST_NAME_INDEX).toString() + " из базы?",
+                    QMessageBox::Yes|QMessageBox::No
+                    );
+        if (reply == QMessageBox::No)
+            return;
+
+        int patientId = record.value(
+                    Ui::TPatient::PATIENT_ID_INDEX
+                    ).toInt();
+
+        QString queryString;
+        queryString = "delete from TPatient where ";
+        queryString += "Id='" + QString::number(patientId) + "'";
+
+        QSqlQuery patientQuery;
+        patientQuery.exec(queryString);
+
+        queryString = "delete from TCheck where ";
+        queryString += "Patient_Id='" + QString::number(patientId) + "'";
+        patientQuery.exec(queryString);
+
+        onUpdatePatientTable();
+
+        patientForm->hide();
+
+    } else {
+        QMessageBox::critical(
+                    this,
+                    "Select to remove",
+                    "Не выбран пациент для удаления"
+                    );
+    }
 }
 
 void MainWindow::onUpdatePatientTable() {
