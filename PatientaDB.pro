@@ -37,7 +37,8 @@ HEADERS += \
 
 FORMS += \
         mainwindow.ui \
-    patientform.ui
+    patientform.ui \
+    checkform.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
