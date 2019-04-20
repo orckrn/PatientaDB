@@ -19,6 +19,20 @@ PatientForm::PatientForm(QWidget *parent) :
                 this,
                 SLOT (onSaveRecordButtonClicked())
                 );
+
+    connect (
+                ui->createCheckButton,
+                SIGNAL(clicked()),
+                this,
+                SLOT (onCreateCheckButtonClicked())
+                );
+
+    connect (
+                ui->deleteCheckButton,
+                SIGNAL(clicked()),
+                this,
+                SLOT (onDeleteCheckButtonClicked())
+                );
 }
 
 void PatientForm::setData(QSqlRecord patientRecord) {
@@ -90,8 +104,8 @@ void PatientForm::setData(QSqlRecord patientRecord) {
                 patientRecord.value(Ui::TPatient::ANAMNESIS_INDEX).toString()
                 );
 
-    ui->addResolutionButton->show();
-    ui->deleteResolutionButton->show();
+    ui->createCheckButton->show();
+    ui->deleteCheckButton->show();
 
     patientId = patientRecord.value(Ui::TPatient::PATIENT_ID_INDEX).toInt();
     mode = Ui::Form_Mode::EDIT_RECORD_MODE;
@@ -124,8 +138,8 @@ void PatientForm::resetData() {
 
     ui->anamnesisEdit->setText("");
 
-    ui->addResolutionButton->hide();
-    ui->deleteResolutionButton->hide();
+    ui->createCheckButton->hide();
+    ui->deleteCheckButton->hide();
 
     mode = Ui::Form_Mode::CREATE_RECORD_MODE;
 }
@@ -193,8 +207,8 @@ void PatientForm::onSaveRecordButtonClicked()
 
                 patientQuery.exec(queryString);
 
-                ui->addResolutionButton->show();
-                ui->deleteResolutionButton->show();
+                ui->createCheckButton->show();
+                ui->deleteCheckButton->show();
 
                 emit updatePatientTable();
 
@@ -274,6 +288,16 @@ void PatientForm::onSaveRecordButtonClicked()
 
         } break;
     }
+}
+
+void PatientForm::onCreateCheckButtonClicked() {
+
+    return; //  TBD
+}
+
+void PatientForm::onDeleteCheckButtonClicked() {
+
+    return; //  TBD
 }
 
 PatientForm::~PatientForm()

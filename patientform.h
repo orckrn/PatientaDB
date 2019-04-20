@@ -32,6 +32,8 @@ signals:
 
 private slots:
     void onSaveRecordButtonClicked();
+    void onCreateCheckButtonClicked();
+    void onDeleteCheckButtonClicked();
 };
 
 #endif // PATIENTFORM_H
