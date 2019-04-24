@@ -25,7 +25,11 @@ private:
     Ui::CheckForm *ui;
     Ui::Form_Mode mode;
 
+private:
     void fillPatientData(int);
+
+private slots:
+    void onSaveRecordButtonClicked();
 };
 
 #endif // CHECKFORM_H

@@ -10,6 +10,13 @@ CheckForm::CheckForm(QWidget *parent) :
     ui(new Ui::CheckForm)
 {
     ui->setupUi(this);
+
+    connect (
+                ui->saveButton,
+                SIGNAL (clicked()),
+                this,
+                SLOT (onSaveRecordButtonClicked())
+                );
 }
 
 void CheckForm::setData(QSqlRecord checkRecord) {
@@ -73,6 +80,39 @@ void CheckForm::fillPatientData(int patientId) {
     ui->labelBirthDate->setText(
                 query.value(Ui::TPatient::BIRTH_DATE_INDEX).toString()
                 );
+}
+
+void CheckForm::onSaveRecordButtonClicked() {
+
+    QString errorMessage;
+
+    if (ui->tagEdit->text().isEmpty()) {
+        errorMessage += "Метка посещения\n";
+    }
+
+    if (ui->resolutionEdit->toPlainText().isEmpty()) {
+        errorMessage += "Резолюция\n";
+    }
+
+    if (!errorMessage.isEmpty()) {
+
+        QMessageBox::critical(
+                this,
+                "Form fields must be defined",
+                errorMessage + "должн(ы) быть определен(ы)"
+                );
+        return;
+    }
+
+    switch (mode) {
+
+        case Ui::Form_Mode::CREATE_RECORD_MODE: {
+
+        } break;
+
+        case Ui::Form_Mode::EDIT_RECORD_MODE: {
+        } break;
+    }
 }
 
 CheckForm::~CheckForm()

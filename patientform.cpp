@@ -160,141 +160,117 @@ void PatientForm::onSaveRecordButtonClicked()
     QSqlQuery patientQuery;
     QMessageBox::StandardButton reply;
 
+    if (ui->lastNameEdit->text().isEmpty()) {
+        errorMessage += "Фамилия\n";
+    }
+
+    if (ui->firstNameEdit->text().isEmpty()) {
+        errorMessage += "Имя\n";
+    }
+
+    if (ui->secondNameEdit->text().isEmpty()) {
+        errorMessage += "Отчество\n";
+    }
+
+    if (!errorMessage.isEmpty()) {
+
+        QMessageBox::critical(
+                this,
+                "Form fields must be defined",
+                errorMessage + "должн(ы) быть определен(ы)"
+                );
+        return;
+    }
+
     switch (mode) {
 
         case Ui::Form_Mode::CREATE_RECORD_MODE: {
 
-            if (ui->lastNameEdit->text().isEmpty()) {
-                errorMessage += "Фамилия\n";
-            }
-
-            if (ui->firstNameEdit->text().isEmpty()) {
-                errorMessage += "Имя\n";
-            }
-
-            if (ui->secondNameEdit->text().isEmpty()) {
-                errorMessage += "Отчество\n";
-            }
-
-            if (!errorMessage.isEmpty()) {
-
-                QMessageBox::critical(
+            reply = QMessageBox::question(
                         this,
-                        "Form fields must be defined",
-                        errorMessage + "должн(ы) быть определен(ы)"
+                        "Question",
+                        "Вы действительно хотите добавить " +
+                            ui->firstNameEdit->text() + " " +
+                            ui->secondNameEdit->text() + " " +
+                            ui->lastNameEdit->text() + " в базу?",
+                        QMessageBox::Yes|QMessageBox::No
                         );
+            if (reply == QMessageBox::No)
+                return;
 
-            } else {
+            queryString = "insert into TPatient (";
+            queryString += "First_Name, Second_Name, Last_Name, ";
+            queryString += "Birth_Date, Street, Building, Block, ";
+            queryString += "Apartments, Phone_Number, Anamnesis) ";
+            queryString += "values (";
+            queryString += "'" + ui->firstNameEdit->text() + "', ";
+            queryString += "'" + ui->secondNameEdit->text() + "', ";
+            queryString += "'" + ui->lastNameEdit->text() + "', ";
+            queryString += "'" + ui->birthDateEdit->date().toString(Qt::ISODate) + "', ";
+            queryString += "'" + ui->streetEdit->text() + "', ";
+            queryString += "'" + ui->buildingEdit->text() + "', ";
+            queryString += "'" + ui->blockEdit->text() + "', ";
+            queryString += "'" + ui->apartmentsEdit->text() + "', ";
+            queryString += "'" + ui->phoneEdit->text() + "', ";
+            queryString += "'" + ui->anamnesisEdit->toPlainText() + "')";
 
-                reply = QMessageBox::question(
-                            this,
-                            "Question",
-                            "Вы действительно хотите добавить " +
-                                ui->firstNameEdit->text() + " " +
-                                ui->secondNameEdit->text() + " " +
-                                ui->lastNameEdit->text() + " в базу?",
-                            QMessageBox::Yes|QMessageBox::No
-                            );
-                if (reply == QMessageBox::No)
-                    return;
+            patientQuery.exec(queryString);
 
-                queryString = "insert into TPatient (";
-                queryString += "First_Name, Second_Name, Last_Name, ";
-                queryString += "Birth_Date, Street, Building, Block, ";
-                queryString += "Apartments, Phone_Number, Anamnesis) ";
-                queryString += "values (";
-                queryString += "'" + ui->firstNameEdit->text() + "', ";
-                queryString += "'" + ui->secondNameEdit->text() + "', ";
-                queryString += "'" + ui->lastNameEdit->text() + "', ";
-                queryString += "'" + ui->birthDateEdit->date().toString(Qt::ISODate) + "', ";
-                queryString += "'" + ui->streetEdit->text() + "', ";
-                queryString += "'" + ui->buildingEdit->text() + "', ";
-                queryString += "'" + ui->blockEdit->text() + "', ";
-                queryString += "'" + ui->apartmentsEdit->text() + "', ";
-                queryString += "'" + ui->phoneEdit->text() + "', ";
-                queryString += "'" + ui->anamnesisEdit->toPlainText() + "')";
+            ui->createCheckButton->show();
+            ui->deleteCheckButton->show();
 
-                patientQuery.exec(queryString);
+            emit updatePatientTable();
 
-                ui->createCheckButton->show();
-                ui->deleteCheckButton->show();
+            queryString = "select * from TPatient where ";
+            queryString += "First_Name='" + ui->firstNameEdit->text() + "' and ";
+            queryString += "Second_Name='" + ui->secondNameEdit->text() + "' and ";
+            queryString += "Last_Name='" + ui->lastNameEdit->text() + "' and ";
+            queryString += "Birth_Date='" + ui->birthDateEdit->date().toString(Qt::ISODate) + "' and ";
+            queryString += "Street='" + ui->streetEdit->text() + "' and ";
+            queryString += "Building='" + ui->buildingEdit->text() + "' and ";
+            queryString += "Block='" + ui->blockEdit->text() + "' and ";
+            queryString += "Apartments='" + ui->apartmentsEdit->text() + "' and ";
+            queryString += "Phone_Number='" + ui->phoneEdit->text() + "'";
+            //  queryString += "Phone_Number='" + ui->phoneEdit->text() + "' and ";
+            //  queryString += "Anamnesis='" + ui->anamnesisEdit->toPlainText() + "'";
+            patientQuery.exec(queryString);
+            patientQuery.next();
+            patientId = patientQuery.value(Ui::TPatient::PATIENT_ID_INDEX).toInt();
 
-                emit updatePatientTable();
-
-                queryString = "select * from TPatient where ";
-                queryString += "First_Name='" + ui->firstNameEdit->text() + "' and ";
-                queryString += "Second_Name='" + ui->secondNameEdit->text() + "' and ";
-                queryString += "Last_Name='" + ui->lastNameEdit->text() + "' and ";
-                queryString += "Birth_Date='" + ui->birthDateEdit->date().toString(Qt::ISODate) + "' and ";
-                queryString += "Street='" + ui->streetEdit->text() + "' and ";
-                queryString += "Building='" + ui->buildingEdit->text() + "' and ";
-                queryString += "Block='" + ui->blockEdit->text() + "' and ";
-                queryString += "Apartments='" + ui->apartmentsEdit->text() + "' and ";
-                queryString += "Phone_Number='" + ui->phoneEdit->text() + "'";
-                //  queryString += "Phone_Number='" + ui->phoneEdit->text() + "' and ";
-                //  queryString += "Anamnesis='" + ui->anamnesisEdit->toPlainText() + "'";
-                patientQuery.exec(queryString);
-                patientQuery.next();
-                patientId = patientQuery.value(Ui::TPatient::PATIENT_ID_INDEX).toInt();
-
-                mode = Ui::Form_Mode::EDIT_RECORD_MODE;
-            }
+            mode = Ui::Form_Mode::EDIT_RECORD_MODE;
 
         } break;
 
         case Ui::Form_Mode::EDIT_RECORD_MODE: {
 
-            if (ui->lastNameEdit->text().isEmpty()) {
-                errorMessage += "Фамилия\n";
-            }
-
-            if (ui->firstNameEdit->text().isEmpty()) {
-                errorMessage += "Имя\n";
-            }
-
-            if (ui->secondNameEdit->text().isEmpty()) {
-                errorMessage += "Отчество\n";
-            }
-
-            if (!errorMessage.isEmpty()) {
-
-                QMessageBox::critical(
+            reply = QMessageBox::question(
                         this,
-                        "Form fields must be defined",
-                        errorMessage + "должн(ы) быть определен(ы)"
+                        "Question",
+                        "Вы действительно хотите обновить " +
+                            ui->firstNameEdit->text() + " " +
+                            ui->secondNameEdit->text() + " " +
+                            ui->lastNameEdit->text() + " в базе?",
+                        QMessageBox::Yes|QMessageBox::No
                         );
+            if (reply == QMessageBox::No)
+                return;
 
-            } else {
+            queryString = "update TPatient set ";
+            queryString += "First_Name='" + ui->firstNameEdit->text() + "', ";
+            queryString += "Second_Name='" + ui->secondNameEdit->text() + "', ";
+            queryString += "Last_Name='" + ui->lastNameEdit->text() + "', ";
+            queryString += "Birth_Date='" + ui->birthDateEdit->date().toString(Qt::ISODate) + "', ";
+            queryString += "Street='" + ui->streetEdit->text() + "', ";
+            queryString += "Building='" + ui->buildingEdit->text() + "', ";
+            queryString += "Block='" + ui->blockEdit->text() + "', ";
+            queryString += "Apartments='" + ui->apartmentsEdit->text() + "', ";
+            queryString += "Phone_Number='" + ui->phoneEdit->text() + "', ";
+            queryString += "Anamnesis='" + ui->anamnesisEdit->toPlainText() + "' ";
+            queryString += "where Id='" + QString::number(patientId) + "'";
 
-                reply = QMessageBox::question(
-                            this,
-                            "Question",
-                            "Вы действительно хотите обновить " +
-                                ui->firstNameEdit->text() + " " +
-                                ui->secondNameEdit->text() + " " +
-                                ui->lastNameEdit->text() + " в базе?",
-                            QMessageBox::Yes|QMessageBox::No
-                            );
-                if (reply == QMessageBox::No)
-                    return;
+            patientQuery.exec(queryString);
 
-                queryString = "update TPatient set ";
-                queryString += "First_Name='" + ui->firstNameEdit->text() + "', ";
-                queryString += "Second_Name='" + ui->secondNameEdit->text() + "', ";
-                queryString += "Last_Name='" + ui->lastNameEdit->text() + "', ";
-                queryString += "Birth_Date='" + ui->birthDateEdit->date().toString(Qt::ISODate) + "', ";
-                queryString += "Street='" + ui->streetEdit->text() + "', ";
-                queryString += "Building='" + ui->buildingEdit->text() + "', ";
-                queryString += "Block='" + ui->blockEdit->text() + "', ";
-                queryString += "Apartments='" + ui->apartmentsEdit->text() + "', ";
-                queryString += "Phone_Number='" + ui->phoneEdit->text() + "', ";
-                queryString += "Anamnesis='" + ui->anamnesisEdit->toPlainText() + "' ";
-                queryString += "where Id='" + QString::number(patientId) + "'";
-
-                patientQuery.exec(queryString);
-
-                emit updatePatientTable();
-            }
+            emit updatePatientTable();
 
         } break;
     }
