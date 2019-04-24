@@ -34,6 +34,13 @@ PatientForm::PatientForm(QWidget *parent) :
                 SLOT (onDeleteCheckButtonClicked())
                 );
 
+    connect (
+                ui->checkList,
+                SIGNAL(doubleClicked(const QModelIndex &)),
+                this,
+                SLOT(onTableDoubleClicked(const QModelIndex &))
+                );
+
     checkForm = new CheckForm;
 }
 
@@ -60,11 +67,11 @@ void PatientForm::setData(QSqlRecord patientRecord) {
                 QObject::tr("Резолюция")
                 );
 
-    ui->patientChecks->setModel(modelChecks);
-    ui->patientChecks->setColumnHidden(Ui::TCheck::CHECK_ID_INDEX, true);
-    ui->patientChecks->setColumnHidden(Ui::TCheck::PATIENT_ID_INDEX, true);
+    ui->checkList->setModel(modelChecks);
+    ui->checkList->setColumnHidden(Ui::TCheck::CHECK_ID_INDEX, true);
+    ui->checkList->setColumnHidden(Ui::TCheck::PATIENT_ID_INDEX, true);
 
-    ui->patientChecks->show();
+    ui->checkList->show();
 
     ui->lastNameEdit->setText(
                 patientRecord.value(Ui::TPatient::LAST_NAME_INDEX).toString()
@@ -116,7 +123,7 @@ void PatientForm::setData(QSqlRecord patientRecord) {
 void PatientForm::resetData() {
 
     modelChecks->setQuery("");
-    ui->patientChecks->setModel(modelChecks);
+    ui->checkList->setModel(modelChecks);
 
     ui->lastNameEdit->setText("");
 
@@ -303,6 +310,14 @@ void PatientForm::onCreateCheckButtonClicked() {
 void PatientForm::onDeleteCheckButtonClicked() {
 
     return; //  TBD
+}
+
+void PatientForm::onTableDoubleClicked(const QModelIndex &index) {
+
+    checkForm->setData();
+    checkForm->show();
+    checkForm->activateWindow();
+    checkForm->raise();
 }
 
 PatientForm::~PatientForm()
