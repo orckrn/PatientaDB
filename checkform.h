@@ -18,12 +18,14 @@ class CheckForm : public QWidget
 public:
     explicit CheckForm(QWidget *parent = nullptr);
     ~CheckForm();
-    void setData();
-    void resetData();
+    void setData(QSqlRecord);
+    void resetData(int);
 
 private:
     Ui::CheckForm *ui;
     Ui::Form_Mode mode;
+
+    void fillPatientData(int);
 };
 
 #endif // CHECKFORM_H

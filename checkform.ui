@@ -142,7 +142,7 @@
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Метка:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="labelEdit">
+   <widget class="QLineEdit" name="tagEdit">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -188,7 +188,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="summaryEdit">
+   <widget class="QTextEdit" name="resolutionEdit">
     <property name="geometry">
      <rect>
       <x>110</x>

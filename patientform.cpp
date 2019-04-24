@@ -230,8 +230,9 @@ void PatientForm::onSaveRecordButtonClicked()
                 queryString += "Building='" + ui->buildingEdit->text() + "' and ";
                 queryString += "Block='" + ui->blockEdit->text() + "' and ";
                 queryString += "Apartments='" + ui->apartmentsEdit->text() + "' and ";
-                queryString += "Phone_Number='" + ui->phoneEdit->text() + "' and ";
-                queryString += "Anamnesis='" + ui->anamnesisEdit->toPlainText() + "'";
+                queryString += "Phone_Number='" + ui->phoneEdit->text() + "'";
+                //  queryString += "Phone_Number='" + ui->phoneEdit->text() + "' and ";
+                //  queryString += "Anamnesis='" + ui->anamnesisEdit->toPlainText() + "'";
                 patientQuery.exec(queryString);
                 patientQuery.next();
                 patientId = patientQuery.value(Ui::TPatient::PATIENT_ID_INDEX).toInt();
@@ -301,7 +302,7 @@ void PatientForm::onSaveRecordButtonClicked()
 
 void PatientForm::onCreateCheckButtonClicked() {
 
-    checkForm->resetData();
+    checkForm->resetData(patientId);
     checkForm->show();
     checkForm->activateWindow();
     checkForm->raise();
@@ -314,7 +315,11 @@ void PatientForm::onDeleteCheckButtonClicked() {
 
 void PatientForm::onTableDoubleClicked(const QModelIndex &index) {
 
-    checkForm->setData();
+    if (index.isValid()) {
+        QSqlRecord checkRecord = modelChecks->record(index.row());
+        checkForm->setData(checkRecord);
+    }
+
     checkForm->show();
     checkForm->activateWindow();
     checkForm->raise();
