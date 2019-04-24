@@ -24,6 +24,7 @@ public:
 private:
     Ui::CheckForm *ui;
     Ui::Form_Mode mode;
+    int patientId;
 
 private:
     void fillPatientData(int);

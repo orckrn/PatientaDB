@@ -231,8 +231,7 @@ void PatientForm::onSaveRecordButtonClicked()
             queryString += "Block='" + ui->blockEdit->text() + "' and ";
             queryString += "Apartments='" + ui->apartmentsEdit->text() + "' and ";
             queryString += "Phone_Number='" + ui->phoneEdit->text() + "'";
-            //  queryString += "Phone_Number='" + ui->phoneEdit->text() + "' and ";
-            //  queryString += "Anamnesis='" + ui->anamnesisEdit->toPlainText() + "'";
+
             patientQuery.exec(queryString);
             patientQuery.next();
             patientId = patientQuery.value(Ui::TPatient::PATIENT_ID_INDEX).toInt();

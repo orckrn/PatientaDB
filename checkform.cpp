@@ -23,6 +23,7 @@ void CheckForm::setData(QSqlRecord checkRecord) {
 
     int patientId;
     patientId = checkRecord.value(Ui::TCheck::PATIENT_ID_INDEX).toInt();
+    this->patientId = patientId;
 
     fillPatientData(patientId);
 
@@ -43,6 +44,7 @@ void CheckForm::setData(QSqlRecord checkRecord) {
 
 void CheckForm::resetData(int patientId) {
 
+    this->patientId = patientId;
     fillPatientData(patientId);
 
     ui->tagEdit->setText("");
@@ -85,6 +87,9 @@ void CheckForm::fillPatientData(int patientId) {
 void CheckForm::onSaveRecordButtonClicked() {
 
     QString errorMessage;
+    QMessageBox::StandardButton reply;
+    QString queryString;
+    QSqlQuery checkQuery;
 
     if (ui->tagEdit->text().isEmpty()) {
         errorMessage += "Метка посещения\n";
@@ -107,6 +112,28 @@ void CheckForm::onSaveRecordButtonClicked() {
     switch (mode) {
 
         case Ui::Form_Mode::CREATE_RECORD_MODE: {
+
+            reply = QMessageBox::question(
+                        this,
+                        "Question",
+                        "Вы действительно хотите добавить " +
+                            ui->tagEdit->text() + " в базу?",
+                        QMessageBox::Yes|QMessageBox::No
+                        );
+            if (reply == QMessageBox::No)
+                return;
+
+            queryString = "insert into TCheck (";
+            queryString += "Tag, Date, Patient_Id, Resolution) ";
+            queryString += "values (";
+            queryString += "'" + ui->tagEdit->text() + "', ";
+            queryString += "'" + ui->dateEdit->date().toString(Qt::ISODate) + "', ";
+            queryString += "'" + QString::number(this->patientId) + "', ";
+            queryString += "'" + ui->resolutionEdit->toPlainText() + "')";
+
+            checkQuery.exec(queryString);
+
+            //  emit updateCheckTable();
 
         } break;
 
