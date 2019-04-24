@@ -5,6 +5,7 @@
 #include <QWidget>
 
 #include "main.h"
+#include "checkform.h"
 
 namespace Ui {
 
@@ -26,6 +27,7 @@ private:
     Ui::Form_Mode mode;
     QSqlQueryModel *modelChecks;
     int patientId;
+    CheckForm *checkForm;
 
 signals:
     void updatePatientTable();

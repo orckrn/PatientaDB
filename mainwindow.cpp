@@ -257,12 +257,13 @@ void MainWindow::onDeleteRecordButtonClicked() {
 
 void MainWindow::onUpdatePatientTable() {
 
-    //  ???
     modelPatients->setQuery("select * from TPatient");
 }
 
 MainWindow::~MainWindow()
 {
-    db.close();
     delete ui;
+    db.close();
+    delete modelPatients;
+    delete patientForm;
 }

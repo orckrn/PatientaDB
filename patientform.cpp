@@ -33,6 +33,8 @@ PatientForm::PatientForm(QWidget *parent) :
                 this,
                 SLOT (onDeleteCheckButtonClicked())
                 );
+
+    checkForm = new CheckForm;
 }
 
 void PatientForm::setData(QSqlRecord patientRecord) {
@@ -292,7 +294,10 @@ void PatientForm::onSaveRecordButtonClicked()
 
 void PatientForm::onCreateCheckButtonClicked() {
 
-    return; //  TBD
+    checkForm->resetData();
+    checkForm->show();
+    checkForm->activateWindow();
+    checkForm->raise();
 }
 
 void PatientForm::onDeleteCheckButtonClicked() {
@@ -303,4 +308,6 @@ void PatientForm::onDeleteCheckButtonClicked() {
 PatientForm::~PatientForm()
 {
     delete ui;
+    delete modelChecks;
+    delete checkForm;
 }

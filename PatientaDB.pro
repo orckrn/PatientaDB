@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    checkform.cpp \
         main.cpp \
         mainwindow.cpp \
     patientform.cpp
 
 HEADERS += \
+    checkform.h \
         mainwindow.h \
     patientform.h \
     main.h
