@@ -21,9 +21,8 @@ CheckForm::CheckForm(QWidget *parent) :
 
 void CheckForm::setData(QSqlRecord checkRecord) {
 
-    int patientId;
+    checkId = checkRecord.value(Ui::TCheck::CHECK_ID_INDEX).toInt();
     patientId = checkRecord.value(Ui::TCheck::PATIENT_ID_INDEX).toInt();
-    this->patientId = patientId;
 
     fillPatientData(patientId);
 
@@ -149,6 +148,27 @@ void CheckForm::onSaveRecordButtonClicked() {
         } break;
 
         case Ui::Form_Mode::EDIT_RECORD_MODE: {
+
+            reply = QMessageBox::question(
+                    this,
+                    "Question",
+                    "Вы действительно хотите обновить " +
+                        ui->tagEdit->text() + " в базе?",
+                    QMessageBox::Yes|QMessageBox::No
+                    );
+            if (reply == QMessageBox::No)
+                return;
+
+            queryString = "update TCheck set ";
+            queryString += "Tag='" + ui->tagEdit->text() + "', ";
+            queryString += "Date='" + ui->dateEdit->date().toString(Qt::ISODate) + "', ";
+            queryString += "Resolution='" + ui->resolutionEdit->toPlainText() + "' ";
+            queryString += "where Id='" + QString::number(checkId) + "'";
+
+            checkQuery.exec(queryString);
+
+            emit updateCheckTable();
+
         } break;
     }
 }
