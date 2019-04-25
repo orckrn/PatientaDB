@@ -6,5 +6,6 @@
         <file>img/edit_user.png</file>
         <file>img/save.png</file>
         <file>img/add_comment.png</file>
+        <file>img/search.png</file>
     </qresource>
 </RCC>

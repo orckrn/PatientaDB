@@ -182,13 +182,29 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>120</y>
+       <y>460</y>
        <width>101</width>
        <height>101</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">background-image: url(:/img/delete_user_2.png);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="searchButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>101</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-image: url(:/img/search.png);</string>
      </property>
      <property name="text">
       <string/>
