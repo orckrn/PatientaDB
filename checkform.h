@@ -25,9 +25,13 @@ private:
     Ui::CheckForm *ui;
     Ui::Form_Mode mode;
     int patientId;
+    int checkId;
 
 private:
     void fillPatientData(int);
+
+signals:
+    void updateCheckTable();
 
 private slots:
     void onSaveRecordButtonClicked();

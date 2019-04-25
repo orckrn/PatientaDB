@@ -42,6 +42,13 @@ PatientForm::PatientForm(QWidget *parent) :
                 );
 
     checkForm = new CheckForm;
+
+    connect(
+                checkForm,
+                SIGNAL (updateCheckTable()),
+                this,
+                SLOT (onUpdateCheckTable())
+                );
 }
 
 void PatientForm::setData(QSqlRecord patientRecord) {
@@ -285,7 +292,47 @@ void PatientForm::onCreateCheckButtonClicked() {
 
 void PatientForm::onDeleteCheckButtonClicked() {
 
-    return; //  TBD
+    QMessageBox::StandardButton reply;
+
+    QModelIndexList selection = ui->checkList->selectionModel()->selectedRows();
+    if (selection.size()) {
+
+        QModelIndex index = selection.at (0);
+        QSqlRecord record = modelChecks->record(index.row());
+
+        reply = QMessageBox::question(
+                    this,
+                    "Question",
+                    "Вы действительно хотите удалить " +
+                        record.value(Ui::TCheck::TAG_INDEX).toString() + " из базы?",
+                    QMessageBox::Yes|QMessageBox::No
+                    );
+        if (reply == QMessageBox::No)
+            return;
+
+        int checkId = record.value(
+                    Ui::TCheck::CHECK_ID_INDEX
+                    ).toInt();
+
+        QString queryString;
+        queryString = "delete from TCheck where ";
+        queryString += "Id='" + QString::number(checkId) + "'";
+
+        QSqlQuery patientQuery;
+        patientQuery.exec(queryString);
+
+        onUpdateCheckTable();
+
+        checkForm->hide();
+
+    } else {
+
+        QMessageBox::critical(
+                    this,
+                    "Select to remove",
+                    "Не выбрана запись посещения для удаления"
+                    );
+    }
 }
 
 void PatientForm::onTableDoubleClicked(const QModelIndex &index) {
@@ -298,6 +345,13 @@ void PatientForm::onTableDoubleClicked(const QModelIndex &index) {
     checkForm->show();
     checkForm->activateWindow();
     checkForm->raise();
+}
+
+void PatientForm::onUpdateCheckTable() {
+
+    QString queryString = "select * from TCheck where ";
+    queryString += "Patient_Id='" + QString::number(patientId) + "'";
+    modelChecks->setQuery(queryString);
 }
 
 PatientForm::~PatientForm()

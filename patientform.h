@@ -37,6 +37,7 @@ private slots:
     void onCreateCheckButtonClicked();
     void onDeleteCheckButtonClicked();
     void onTableDoubleClicked(const QModelIndex &);
+    void onUpdateCheckTable();
 };
 
 #endif // PATIENTFORM_H

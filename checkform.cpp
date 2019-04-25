@@ -133,7 +133,18 @@ void CheckForm::onSaveRecordButtonClicked() {
 
             checkQuery.exec(queryString);
 
-            //  emit updateCheckTable();
+            emit updateCheckTable();
+
+            queryString = "select * from TCheck where ";
+            queryString += "First_Name='" + ui->tagEdit->text() + "' and ";
+            queryString += "Birth_Date='" + ui->dateEdit->date().toString(Qt::ISODate) + "' and ";
+            queryString += "Street='" + QString::number(this->patientId) + "'";
+
+            checkQuery.exec(queryString);
+            checkQuery.next();
+            checkId = checkQuery.value(Ui::TCheck::CHECK_ID_INDEX).toInt();
+
+            mode = Ui::Form_Mode::EDIT_RECORD_MODE;
 
         } break;
 
