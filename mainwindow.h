@@ -32,6 +32,10 @@ private slots:
     void onCreateRecordButtonClicked();
     void onDeleteRecordButtonClicked();
     void onUpdatePatientTable();
+    void searchOnFirstNameChanged(const QString &text);
+    void searchOnSecondNameChanged(const QString &text);
+    void searchOnLastNameChanged(const QString &text);
+    void searchOnYearChanged(const QString &text);
 };
 
 #endif // MAINWINDOW_H

@@ -105,6 +105,34 @@ MainWindow::MainWindow(QWidget *parent) :
                 this,
                 SLOT (onUpdatePatientTable())
                 );
+
+    connect (
+                ui->searchFirstName,
+                SIGNAL (textChanged(const QString &)),
+                this,
+                SLOT (searchOnFirstNameChanged(const QString &))
+                );
+
+    connect (
+                ui->searchSecondName,
+                SIGNAL (textChanged(const QString &)),
+                this,
+                SLOT (searchOnSecondNameChanged(const QString &))
+                );
+
+    connect (
+                ui->searchLastName,
+                SIGNAL (textChanged(const QString &)),
+                this,
+                SLOT (searchOnLastNameChanged(const QString &))
+                );
+
+    connect (
+                ui->searchYear,
+                SIGNAL (textChanged(const QString &)),
+                this,
+                SLOT (searchOnYearChanged(const QString &))
+                );
 }
 
 void MainWindow::onTableClicked(const QModelIndex &index)
@@ -258,6 +286,50 @@ void MainWindow::onDeleteRecordButtonClicked() {
 void MainWindow::onUpdatePatientTable() {
 
     modelPatients->setQuery("select * from TPatient");
+}
+
+void MainWindow::searchOnFirstNameChanged(const QString &text) {
+
+    QString query = "select * from TPatient where ";
+    query += "First_Name like '%" + text + "%' and ";
+    query += "Second_Name like '%" + ui->searchSecondName->text() + "%' and ";
+    query += "Last_Name like '%" + ui->searchLastName->text() + "%' and ";
+    query += "Birth_Date like '%" + ui->searchYear->text() + "%'";
+
+    modelPatients->setQuery(query);
+}
+
+void MainWindow::searchOnSecondNameChanged(const QString &text) {
+
+    QString query = "select * from TPatient where ";
+    query += "First_Name like '%" + ui->searchFirstName->text() + "%' and ";
+    query += "Second_Name like '%" + text + "%' and ";
+    query += "Last_Name like '%" + ui->searchLastName->text() + "%' and ";
+    query += "Birth_Date like '%" + ui->searchYear->text() + "%'";
+
+    modelPatients->setQuery(query);
+}
+
+void MainWindow::searchOnLastNameChanged(const QString &text) {
+
+    QString query = "select * from TPatient where ";
+    query += "First_Name like '%" + ui->searchFirstName->text() + "%' and ";
+    query += "Second_Name like '%" + ui->searchSecondName->text() + "%' and ";
+    query += "Last_Name like '%" + text + "%' and ";
+    query += "Birth_Date like '%" + ui->searchYear->text() + "%'";
+
+    modelPatients->setQuery(query);
+}
+
+void MainWindow::searchOnYearChanged(const QString &text) {
+
+    QString query = "select * from TPatient where ";
+    query += "First_Name like '%" + ui->searchFirstName->text() + "%' and ";
+    query += "Second_Name like '%" + ui->searchSecondName->text() + "%' and ";
+    query += "Last_Name like '%" + ui->searchLastName->text() + "%' and ";
+    query += "Birth_Date like '%" + text + "%'";
+
+    modelPatients->setQuery(query);
 }
 
 MainWindow::~MainWindow()
